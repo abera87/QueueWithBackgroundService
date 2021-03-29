@@ -1,0 +1,13 @@
+@BASE_URL= http://localhost:5000/
+### queue job
+POST {{BASE_URL}}sort
+Content-Type: application/json
+
+[2, 3, 1, 5, 3, 1, -20, 2]
+
+### get all jobs
+GET {{BASE_URL}}sort
+
+### get job by Id
+@jobId=ffd8f21e-66fa-4fed-97f2-226359b73da6
+GET {{BASE_URL}}sort/{{jobId}}
