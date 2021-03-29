@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Converters;
+using Microsoft.OpenApi.Models;
 
 namespace Maersk.Sorting.Api
 {
@@ -28,6 +29,15 @@ namespace Maersk.Sorting.Api
             services.AddSingleton(typeof(SortJobQueue));
 
             services.AddHostedService<SortJobBackGroundService>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Sort controller API with background service and queue",
+                    Version = "v1"
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -35,6 +45,11 @@ namespace Maersk.Sorting.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                     {
+                         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sort controller API with background service and queue");
+                     });
             }
 
             app.UseRouting();
